@@ -18,10 +18,6 @@ class _HomeViewState extends State<HomeView> {
         title: Text('Tani Jaya'),
         actions: [
           IconButton(
-            icon: Icon(Icons.camera_alt),
-            onPressed: () {},
-          ),
-          IconButton(
             icon: Icon(Icons.search),
             onPressed: () {},
           ),
