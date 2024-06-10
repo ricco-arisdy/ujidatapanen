@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
-import 'package:ujidatapanen/screen/register_screen.dart';
 
 void main() {
   runApp(const MyApp());
