@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
+import 'package:ujidatapanen/screen/profile_screen.dart';
 
 void main() {
   runApp(HomeView());
@@ -28,7 +29,7 @@ class _HomeViewState extends State<HomeView> {
                   // Navigasi ke halaman Profile saat menu dipilih
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
                     (route) => false,
                   );
                   break;
@@ -57,8 +58,77 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
-      body: Center(
-        child: Text('Hello, World!'),
+      body: Column(
+        children: [
+          Center(
+            child: Container(
+              width: 250,
+              height: 130,
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hasil Panen Semua Lahan',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Text(
+                          'Kg 1000',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Icon(
+                          Icons.remove_red_eye_outlined,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      // Menambahkan Garis
+                      color: Colors.white,
+                      thickness: 2,
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Semua Hasil Panen',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
