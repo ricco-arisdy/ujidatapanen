@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginService {
   Future<bool> login(String email, String password) async {
@@ -12,7 +13,17 @@ class LoginService {
 
     if (response.statusCode == 200) {
       var jsonResponse = json.decode(response.body);
+      print('Response from server: $jsonResponse'); 
       if (jsonResponse['status'] == 'success') {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String? username = jsonResponse['username'];
+        print('Username from response: $username'); 
+        prefs.setString(
+            'username', username ?? ''); 
+        prefs.setString('email', email);
+
+        print('Data login berhasil disimpan ke dalam SharedPreferences');
+
         return true;
       } else {
         throw Exception(jsonResponse['message']);
