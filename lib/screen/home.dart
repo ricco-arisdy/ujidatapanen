@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
 import 'package:ujidatapanen/screen/tentang_screen.dart';
 
@@ -88,83 +89,117 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
-      body: Center(
-        child: Container(
-          width: 250,
-          height: 150,
-          decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Hasil Panen Semua Lahan',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    AnimatedOpacity(
-                      opacity: _isTextVisible ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 500),
-                      child: Text(
-                        'Kg 1000',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    IconButton(
-                      icon: Icon(
-                        Icons.remove_red_eye_outlined,
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _isTextVisible = !_isTextVisible;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                Divider(
-                  color: Colors.white,
-                  thickness: 2,
-                  height: 20,
-                ),
-                Row(
+      body: Column(
+        children: [
+          Center(
+            child: Container(
+              width: 250,
+              height: 130,
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Semua Hasil Panen',
+                      'Hasil Panen Semua Lahan',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 10),
-                    Icon(
-                      Icons.arrow_forward,
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        AnimatedOpacity(
+                          opacity: _isTextVisible ? 1.0 : 0.0,
+                          duration: Duration(milliseconds: 500),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Text(
+                                _isTextVisible ? 'Kg 1000' : '...',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              if (!_isTextVisible)
+                                SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isTextVisible = !_isTextVisible;
+                            });
+                          },
+                          child: Stack(
+                            children: [
+                              Icon(
+                                Icons.remove_red_eye_outlined,
+                                color: Colors.white,
+                                size: 18,
+                              ),
+                              if (!_isTextVisible)
+                                Positioned.fill(
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: SvgPicture.asset(
+                                      'assets/line.svg', // Path to your custom line SVG
+                                      color: Colors.white,
+                                      height: 18,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(
                       color: Colors.white,
-                      size: 18,
+                      thickness: 2,
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Semua Hasil Panen',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
