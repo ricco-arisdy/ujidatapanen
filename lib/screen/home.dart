@@ -25,7 +25,7 @@ class _HomeViewState extends State<HomeView> {
           PopupMenuButton<String>(
             onSelected: (value) {
               switch (value) {
-                case 'Profile':
+                case 'Tentang':
                   // Navigasi ke halaman Profile saat menu dipilih
                   Navigator.pushAndRemoveUntil(
                     context,
@@ -46,8 +46,8 @@ class _HomeViewState extends State<HomeView> {
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
-                  value: 'Profile',
-                  child: Text('Profile'),
+                  value: 'Tentang',
+                  child: Text('Tentang'),
                 ),
                 PopupMenuItem(
                   value: 'Logout',
