@@ -47,11 +47,39 @@ class _HomeViewState extends State<HomeView> {
               return [
                 PopupMenuItem(
                   value: 'Tentang',
-                  child: Text('Tentang'),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.info_outline,
+                        size: 15,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        'Tentang',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 PopupMenuItem(
                   value: 'Logout',
-                  child: Text('Logout'),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.logout,
+                        size: 15,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        'Logout',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ];
             },
