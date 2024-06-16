@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ujidatapanen/controller/register_controller.dart';
 import 'package:ujidatapanen/model/user.dart';
-import 'package:ujidatapanen/screen/home.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
 
 class RegisterPage extends StatefulWidget {

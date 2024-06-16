@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ujidatapanen/screen/home.dart';
 
 class TentangView extends StatefulWidget {
   @override
@@ -28,7 +29,16 @@ class _TentangViewState extends State<TentangView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text('Tentang'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomeView()),
+            );
+          },
+        ),
       ),
       body: Center(
         child: Column(
