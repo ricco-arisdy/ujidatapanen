@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
-import 'package:ujidatapanen/screen/profile_screen.dart';
+import 'package:ujidatapanen/screen/tentang_screen.dart';
 
 void main() {
   runApp(HomeView());
@@ -29,7 +29,7 @@ class _HomeViewState extends State<HomeView> {
                   // Navigasi ke halaman Profile saat menu dipilih
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                    MaterialPageRoute(builder: (context) => TentangView()),
                     (route) => false,
                   );
                   break;
