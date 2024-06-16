@@ -41,19 +41,33 @@ class _TentangViewState extends State<TentangView> {
         ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Username: $_username',
-              style: TextStyle(fontSize: 20),
-            ),
-            Text(
-              'Email: $_email',
-              style: TextStyle(fontSize: 20),
-            ),
-            // Anda dapat menambahkan widget lainnya di sini sesuai kebutuhan
-          ],
+        child: Container(
+          padding: EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.blue.shade100,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          constraints: BoxConstraints(
+            maxWidth: 300, // Sesuaikan ukuran maksimal container
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize
+                .min, // Menyesuaikan ukuran container dengan kontennya
+            crossAxisAlignment:
+                CrossAxisAlignment.start, // Menyelaraskan teks di sebelah kiri
+            children: <Widget>[
+              Text(
+                'Username: $_username',
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(height: 10), // Tambahkan jarak antara username dan email
+              Text(
+                'Email: $_email',
+                style: TextStyle(fontSize: 20),
+              ),
+              // Anda dapat menambahkan widget lainnya di sini sesuai kebutuhan
+            ],
+          ),
         ),
       ),
     );
