@@ -4,7 +4,7 @@ import '../model/user.dart';
 
 class AuthService {
   Future<bool> registerUser(User user) async {
-    var url = Uri.parse('http://192.168.100.6/api_pam/register.php');
+    var url = Uri.parse('http://192.168.0.139/api_pam/register.php');
     var response = await http.post(url, body: {
       'id': user.id.toString(),
       'username': user.username,
