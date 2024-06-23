@@ -56,7 +56,7 @@ class _TentangViewState extends State<TentangView> {
                 colors: [
                   Colors.blueAccent,
                   Colors.pinkAccent,
-                  Colors.orangeAccent
+                  Colors.orangeAccent,
                 ],
               ),
               borderRadius: BorderRadius.circular(16.0),
@@ -66,9 +66,8 @@ class _TentangViewState extends State<TentangView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 8),
                   Text(
-                    'Profile Card',
+                    'TentangMu',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -76,39 +75,45 @@ class _TentangViewState extends State<TentangView> {
                     ),
                   ),
                   SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Icon(Icons.account_circle, color: Colors.white, size: 32),
-                      SizedBox(width: 8),
-                      Text(
-                        'Username: $_username',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(Icons.email, color: Colors.white, size: 32),
-                      SizedBox(width: 8),
-                      Text(
-                        'Email: $_email',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                  buildInfoRow(Icons.account_circle, 'Username', _username),
+                  SizedBox(height: 12),
+                  buildInfoRow(Icons.email, 'Email', _email),
                 ],
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildInfoRow(IconData icon, String label, String value) {
+    return Row(
+      children: [
+        Icon(icon, color: Colors.white, size: 32),
+        SizedBox(width: 12),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
