@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginService {
   Future<bool> login(String email, String password) async {
-    var url = Uri.parse('http://192.168.0.139/api_pam/login.php');
+    var url = Uri.parse('http://192.168.100.6/api_pam/login.php');
     var response = await http.post(url, body: {
       'action': 'login',
       'email': email,
@@ -17,9 +17,10 @@ class LoginService {
       if (jsonResponse['status'] == 'success') {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String? username = jsonResponse['username'];
+        String? email = jsonResponse['email']; // Ambil email jika diperlukan
         print('Username from response: $username');
         prefs.setString('username', username ?? '');
-        prefs.setString('email', email);
+        prefs.setString('email', email ?? ''); // Simpan email jika diperlukan
 
         print('Data login berhasil disimpan ke dalam SharedPreferences');
 

@@ -14,7 +14,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final RegisterController _registerController = RegisterController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController alamatController = TextEditingController();
-  TextEditingController noTelpController = TextEditingController();
+  TextEditingController no_telpController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -38,7 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
               decoration: const InputDecoration(labelText: 'Alamat'),
             ),
             TextFormField(
-              controller: noTelpController,
+              controller: no_telpController,
               decoration: const InputDecoration(labelText: 'Nomor Telepon'),
               keyboardType: TextInputType.phone,
             ),
@@ -56,14 +56,14 @@ class _RegisterPageState extends State<RegisterPage> {
               onPressed: () async {
                 String username = usernameController.text;
                 String alamat = alamatController.text;
-                int noTelp = int.tryParse(noTelpController.text) ?? 0;
+                String no_telp = no_telpController.text;
                 String email = emailController.text;
                 String password = passwordController.text;
                 User user = User(
                   id: 0,
                   username: username,
                   alamat: alamat,
-                  no_telp: noTelp,
+                  no_telp: no_telp,
                   email: email,
                   password: password,
                 );
