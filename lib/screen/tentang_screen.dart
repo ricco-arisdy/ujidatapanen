@@ -41,32 +41,71 @@ class _TentangViewState extends State<TentangView> {
         ),
       ),
       body: Center(
-        child: Container(
-          padding: EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: Colors.blue.shade100,
-            borderRadius: BorderRadius.circular(10),
+        child: Card(
+          elevation: 8,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
           ),
-          constraints: BoxConstraints(
-            maxWidth: 300, // Sesuaikan ukuran maksimal container
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize
-                .min, // Menyesuaikan ukuran container dengan kontennya
-            crossAxisAlignment:
-                CrossAxisAlignment.start, // Menyelaraskan teks di sebelah kiri
-            children: <Widget>[
-              Text(
-                'Username: $_username',
-                style: TextStyle(fontSize: 20),
+          child: Container(
+            height: 200,
+            width: 350,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.blueAccent,
+                  Colors.pinkAccent,
+                  Colors.orangeAccent
+                ],
               ),
-              SizedBox(height: 10), // Tambahkan jarak antara username dan email
-              Text(
-                'Email: $_email',
-                style: TextStyle(fontSize: 20),
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 8),
+                  Text(
+                    'Profile Card',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Icon(Icons.account_circle, color: Colors.white, size: 32),
+                      SizedBox(width: 8),
+                      Text(
+                        'Username: $_username',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(Icons.email, color: Colors.white, size: 32),
+                      SizedBox(width: 8),
+                      Text(
+                        'Email: $_email',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              // Anda dapat menambahkan widget lainnya di sini sesuai kebutuhan
-            ],
+            ),
           ),
         ),
       ),
