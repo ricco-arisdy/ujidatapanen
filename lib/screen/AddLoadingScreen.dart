@@ -73,10 +73,8 @@ class _AddLoadingScreenState extends State<AddLoadingScreen> {
                       backgroundColor: Colors.blue,
                     ),
                   );
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeView(userId: userId)),
-                  );
+                  Navigator.pop(context,
+                      true); // Kembali ke ViewLoadingScreen dengan nilai true
                 }
               },
               child: const Text('Tambah Loading'),

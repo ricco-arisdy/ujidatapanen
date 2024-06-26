@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ujidatapanen/provider/AuthProvider.dart';
 import 'package:ujidatapanen/screen/AddLahan_Screen.dart';
+import 'package:ujidatapanen/screen/ViewLahan.dart';
 import 'package:ujidatapanen/screen/ViewLoadingScreen.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
 import 'package:ujidatapanen/screen/tentang_screen.dart';
 import 'package:ujidatapanen/service/ViewLahanService.dart';
+import 'package:ujidatapanen/model/lahan.dart'; // Import model Lahan yang sesuai
 
 class HomeView extends StatefulWidget {
   final int userId;
@@ -18,7 +20,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  late Future<List<dynamic>> _lahanFuture;
+  late Future<List<Lahan>> _lahanFuture; // Menggunakan List<Lahan> daripada List<dynamic>
   String searchQuery = '';
   bool _isTextVisible = true;
 
@@ -243,7 +245,7 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           Expanded(
-            child: FutureBuilder<List<dynamic>>(
+            child: FutureBuilder<List<Lahan>>(
               future: _lahanFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -253,11 +255,9 @@ class _HomeViewState extends State<HomeView> {
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(child: Text('No data available'));
                 } else {
-                  List<dynamic> lahanList = snapshot.data!;
-                  List<dynamic> filteredLahanList = lahanList.where((lahan) {
-                    return lahan['nama_lahan']
-                        .toLowerCase()
-                        .contains(searchQuery);
+                  List<Lahan> lahanList = snapshot.data!;
+                  List<Lahan> filteredLahanList = lahanList.where((lahan) {
+                    return lahan.namaLahan.toLowerCase().contains(searchQuery);
                   }).toList();
 
                   return ListView.builder(
@@ -266,21 +266,28 @@ class _HomeViewState extends State<HomeView> {
                       var lahan = filteredLahanList[index];
                       return Card(
                         child: ListTile(
-                          title: Text(lahan['nama_lahan']),
+                          title: Text(lahan.namaLahan),
+                          onTap: () {
+                            // Navigasi ke halaman ViewPanen dengan membawa data lahan jika diperlukan
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ViewPanen(lahan: lahan)),
+                            );
+                          },
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              TextButton(
-                                onPressed: () {
-                                  // Edit action
-                                },
-                                child: Text('Edit'),
-                              ),
-                              TextButton(
+                              IconButton(
+                                icon: Icon(Icons.edit),
                                 onPressed: () {
                                   // Delete action
                                 },
-                                child: Text('Del'),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  // Delete action
+                                },
                               ),
                             ],
                           ),
@@ -301,7 +308,9 @@ class _HomeViewState extends State<HomeView> {
             MaterialPageRoute(builder: (context) => LahanScreen()),
           );
           if (added != null && added) {
-            fetchData();
+            setState(() {
+              fetchData();
+            });
           }
         },
         child: Icon(Icons.add),

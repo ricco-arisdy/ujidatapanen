@@ -74,12 +74,19 @@ class _ViewLoadingScreenState extends State<ViewLoadingScreen> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.add), // Tambahkan tombol "Tambah Loading" di sini
+            icon: Icon(Icons.add),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => AddLoadingScreen()),
-              );
+              ).then((value) {
+                if (value != null && value) {
+                  // Refresh data when returning from AddLoadingScreen
+                  fetchData();
+                  setState(
+                      () {}); // Pastikan setState dipanggil untuk memperbarui tampilan
+                }
+              });
             },
           ),
         ],
@@ -98,7 +105,8 @@ class _ViewLoadingScreenState extends State<ViewLoadingScreen> {
                   return Center(child: Text('No data available'));
                 } else {
                   List<dynamic> loadingList = snapshot.data!;
-                  List<dynamic> filteredLoadingList = loadingList.where((loading) {
+                  List<dynamic> filteredLoadingList =
+                      loadingList.where((loading) {
                     return loading['nama_loading']
                         .toLowerCase()
                         .contains(searchQuery);

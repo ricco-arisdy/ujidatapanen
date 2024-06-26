@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:ujidatapanen/controller/login_controller.dart';
 import 'package:ujidatapanen/screen/register_screen.dart';
 import 'package:ujidatapanen/screen/home.dart';

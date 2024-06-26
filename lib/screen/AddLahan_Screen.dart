@@ -18,6 +18,12 @@ class _LahanScreenState extends State<LahanScreen> {
   TextEditingController luasController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    // Tambahkan kode inisialisasi lainnya di sini jika diperlukan
+  }
+
+  @override
   Widget build(BuildContext context) {
     int userId = Provider.of<AuthProvider>(context, listen: false).userId ?? 0;
 
