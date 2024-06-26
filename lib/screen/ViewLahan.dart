@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ujidatapanen/model/lahan.dart'; // Sesuaikan dengan lokasi dan nama model Lahan Anda
+import 'package:ujidatapanen/model/lahan.dart'; // Adjust based on your Lahan model location
 
 class ViewPanen extends StatefulWidget {
   final Lahan lahan;
@@ -17,51 +17,57 @@ class _ViewPanenState extends State<ViewPanen> {
       appBar: AppBar(
         title: Text('Detail Panen - ${widget.lahan.namaLahan}'),
       ),
-      body: Center(
-        child: Card(
-          elevation: 8,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          child: Container(
-            height: 200,
-            width: 350,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.blueAccent,
-                  Colors.pinkAccent,
-                  Colors.orangeAccent,
-                ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
               ),
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Detail Panen',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.blueAccent,
+                      Colors.pinkAccent,
+                      Colors.orangeAccent,
+                    ],
                   ),
-                  SizedBox(height: 16),
-                  buildInfoRow(Icons.format_size, 'Luas Lahan',
-                      '${widget.lahan.luas} Ha'),
-                  SizedBox(height: 12),
-                  buildInfoRow(
-                      Icons.location_on, 'Lokasi', widget.lahan.lokasi),
-                ],
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Detail Panen',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      buildInfoRow(Icons.format_size, 'Luas Lahan',
+                          '${widget.lahan.luas} Ha'),
+                      SizedBox(height: 12),
+                      buildInfoRow(
+                          Icons.location_on, 'Lokasi', widget.lahan.lokasi),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
-        ),
+          // Additional content can be added below the card if needed
+        ],
       ),
     );
   }
