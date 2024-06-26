@@ -2,7 +2,7 @@ class User {
   final int id;
   final String username;
   final String alamat;
-  final String no_telp;
+  final int no_telp;
   final String email;
   final String password;
   final String? tanggalBergabung;

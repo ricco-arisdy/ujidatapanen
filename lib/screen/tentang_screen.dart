@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ujidatapanen/screen/home.dart';
 
 class TentangView extends StatefulWidget {
   @override
@@ -33,10 +32,7 @@ class _TentangViewState extends State<TentangView> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => HomeView()),
-            );
+            Navigator.pop(context); // Navigasi kembali normal
           },
         ),
       ),

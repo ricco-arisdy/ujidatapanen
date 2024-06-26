@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ujidatapanen/controller/login_controller.dart';
 import 'package:ujidatapanen/screen/register_screen.dart';
+import 'package:ujidatapanen/screen/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,7 +12,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late LoginController _loginController; // Tambahkan late modifier
+  late LoginController _loginController;
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -19,8 +21,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    _loginController =
-        LoginController(); // Inisialisasi _loginController di initState()
+    _loginController = LoginController();
     super.initState();
   }
 
@@ -30,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text('Tani Jaya'),
         centerTitle: true,
+        backgroundColor: Color.fromRGBO(39, 246, 56, 0.824),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -46,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 20),
                 Text(
                   'Welcome Back!',
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -86,7 +88,15 @@ class _LoginPageState extends State<LoginPage> {
                     if (_formKey.currentState?.validate() ?? false) {
                       String email = emailController.text;
                       String password = passwordController.text;
-                      await _loginController.login(context, email, password);
+                      int? userId = await _loginController.login(
+                          context, email, password);
+                      if (userId != null) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomeView(userId: userId)),
+                        );
+                      }
                     }
                   },
                   child: const Text('Login'),

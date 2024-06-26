@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ujidatapanen/controller/register_controller.dart';
 import 'package:ujidatapanen/model/user.dart';
+import 'package:ujidatapanen/screen/home.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -14,7 +15,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final RegisterController _registerController = RegisterController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController alamatController = TextEditingController();
-  TextEditingController no_telpController = TextEditingController();
+  TextEditingController noTelpController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -38,7 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
               decoration: const InputDecoration(labelText: 'Alamat'),
             ),
             TextFormField(
-              controller: no_telpController,
+              controller: noTelpController,
               decoration: const InputDecoration(labelText: 'Nomor Telepon'),
               keyboardType: TextInputType.phone,
             ),
@@ -56,14 +57,14 @@ class _RegisterPageState extends State<RegisterPage> {
               onPressed: () async {
                 String username = usernameController.text;
                 String alamat = alamatController.text;
-                String no_telp = no_telpController.text;
+                int noTelp = int.tryParse(noTelpController.text) ?? 0;
                 String email = emailController.text;
                 String password = passwordController.text;
                 User user = User(
                   id: 0,
                   username: username,
                   alamat: alamat,
-                  no_telp: no_telp,
+                  no_telp: noTelp,
                   email: email,
                   password: password,
                 );

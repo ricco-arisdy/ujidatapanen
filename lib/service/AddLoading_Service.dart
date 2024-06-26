@@ -1,15 +1,16 @@
 import 'dart:convert';
-import 'package:ujidatapanen/model/lahan.dart';
 import 'package:http/http.dart' as http;
+import 'package:ujidatapanen/model/loading.dart';
 
-class LahanService {
-  Future<bool> createLahan(Lahan lahan) async {
-    var url = Uri.parse('http://192.168.0.188/api_pam/lahan.php');
+class LoadingService {
+  Future<bool> createLoading(Loading loading) async {
+    var url = Uri.parse('http://192.168.0.188/api_pam/add_loading.php');
     var response = await http.post(url, body: {
-      'nama_lahan': lahan.namaLahan,
-      'lokasi': lahan.lokasi,
-      'luas': lahan.luas.toString(),
-      'user_id': lahan.userId.toString(),
+      'nama_loading': loading.namaLoading,
+      'pemilik': loading.pemilik,
+      'alamat': loading.alamat,
+      'lokasi': loading.lokasi,
+      'user_id': loading.userId.toString(),
     });
 
     if (response.statusCode == 200) {

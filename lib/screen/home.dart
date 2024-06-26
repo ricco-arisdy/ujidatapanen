@@ -1,19 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:ujidatapanen/provider/AuthProvider.dart';
+import 'package:ujidatapanen/screen/AddLahan_Screen.dart';
+import 'package:ujidatapanen/screen/ViewLoadingScreen.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
 import 'package:ujidatapanen/screen/tentang_screen.dart';
-
-void main() {
-  runApp(HomeView());
-}
+import 'package:ujidatapanen/service/ViewLahanService.dart';
 
 class HomeView extends StatefulWidget {
+  final int userId;
+
+  HomeView({required this.userId});
+
   @override
   _HomeViewState createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
+  late Future<List<dynamic>> _lahanFuture;
+  String searchQuery = '';
   bool _isTextVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() {
+    _lahanFuture = ViewLahanService().fetchLahan(widget.userId);
+  }
+
+  void showSearchDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Search'),
+          content: TextField(
+            decoration: InputDecoration(
+              labelText: 'Search',
+              prefixIcon: Icon(Icons.search),
+              border: OutlineInputBorder(),
+            ),
+            onChanged: (value) {
+              setState(() {
+                searchQuery = value.toLowerCase();
+              });
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,25 +71,24 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              showSearchDialog(context);
+            },
           ),
           PopupMenuButton<String>(
             onSelected: (value) {
               switch (value) {
                 case 'Tentang':
-                  // Navigasi ke halaman Profile saat menu dipilih
-                  Navigator.pushAndRemoveUntil(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => TentangView()),
-                    (route) => false,
                   );
                   break;
                 case 'Logout':
-                  // Navigasi ke halaman Login saat menu dipilih
-                  Navigator.pushAndRemoveUntil(
+                  Provider.of<AuthProvider>(context, listen: false).clearUser();
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => LoginPage()),
-                    (route) => false,
                   );
                   break;
               }
@@ -68,23 +115,18 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 PopupMenuItem(
                   value: 'Logout',
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.logout,
-                        size: 15,
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        'Logout',
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: Text('Logout'),
                 ),
               ];
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.list),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ViewLoadingScreen()),
+              );
             },
           ),
         ],
@@ -135,7 +177,8 @@ class _HomeViewState extends State<HomeView> {
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
                                     valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.white),
+                                      Colors.white,
+                                    ),
                                   ),
                                 ),
                             ],
@@ -160,7 +203,7 @@ class _HomeViewState extends State<HomeView> {
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: SvgPicture.asset(
-                                      'assets/line.svg', // Path to your custom line SVG
+                                      'assets/line.svg',
                                       color: Colors.white,
                                       height: 18,
                                     ),
@@ -199,11 +242,67 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
           ),
+          Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: _lahanFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(child: Text('No data available'));
+                } else {
+                  List<dynamic> lahanList = snapshot.data!;
+                  List<dynamic> filteredLahanList = lahanList.where((lahan) {
+                    return lahan['nama_lahan']
+                        .toLowerCase()
+                        .contains(searchQuery);
+                  }).toList();
+
+                  return ListView.builder(
+                    itemCount: filteredLahanList.length,
+                    itemBuilder: (context, index) {
+                      var lahan = filteredLahanList[index];
+                      return Card(
+                        child: ListTile(
+                          title: Text(lahan['nama_lahan']),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  // Edit action
+                                },
+                                child: Text('Edit'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  // Delete action
+                                },
+                                child: Text('Del'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Tambahkan logika yang dibutuhkan saat tombol ditekan di sini
+        onPressed: () async {
+          bool? added = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LahanScreen()),
+          );
+          if (added != null && added) {
+            fetchData();
+          }
         },
         child: Icon(Icons.add),
         shape: CircleBorder(),
