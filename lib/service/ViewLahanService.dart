@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:ujidatapanen/model/lahan.dart'; // Sesuaikan dengan lokasi dan nama model Lahan Anda
 
 class ViewLahanService {
-  static const String apiUrl = 'http://192.168.0.188/api_pam/get_lahan.php';
+  static const String apiUrl = 'http://192.168.100.6/api_pam/get_lahan.php';
 
   Future<List<Lahan>> fetchLahan(int userId) async {
     final response = await http.get(Uri.parse('$apiUrl?user_id=$userId'));

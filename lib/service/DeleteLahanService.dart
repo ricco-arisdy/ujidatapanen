@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class LahanService {
   static const String baseUrl =
-      "http://192.168.0.188/api_pam/delete_lahan.php"; // Update with your API URL
+      "http://192.168.100.6/api_pam/delete_lahan.php"; // Update with your API URL
 
   Future<void> deleteLahan(int id) async {
     try {
