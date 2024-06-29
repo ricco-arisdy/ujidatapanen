@@ -8,7 +8,7 @@ import 'package:ujidatapanen/screen/ViewLoadingScreen.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
 import 'package:ujidatapanen/screen/tentang_screen.dart';
 import 'package:ujidatapanen/service/ViewLahanService.dart';
-import 'package:ujidatapanen/model/lahan.dart'; // Import model Lahan yang sesuai
+import 'package:ujidatapanen/model/lahan.dart';
 
 class HomeView extends StatefulWidget {
   final int userId;
@@ -20,8 +20,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  late Future<List<Lahan>>
-      _lahanFuture; // Menggunakan List<Lahan> daripada List<dynamic>
+  late Future<List<Lahan>> _lahanFuture;
   String searchQuery = '';
   bool _isTextVisible = true;
 
@@ -40,10 +39,17 @@ class _HomeViewState extends State<HomeView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Search'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0), // Ubah radius border
+          ),
+          contentPadding:
+              EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0.0), // Atur padding konten
+
           content: TextField(
+            style: TextStyle(fontSize: 16), // Ubah ukuran teks pada TextField
             decoration: InputDecoration(
               labelText: 'Search',
+              labelStyle: TextStyle(fontSize: 16), // Ukuran teks label
               prefixIcon: Icon(Icons.search),
               border: OutlineInputBorder(),
             ),
@@ -58,7 +64,10 @@ class _HomeViewState extends State<HomeView> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Close'),
+              child: Text(
+                'Close',
+                style: TextStyle(fontSize: 16), // Ukuran teks tombol
+              ),
             ),
           ],
         );
@@ -71,69 +80,6 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Tani Jaya'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              showSearchDialog(context);
-            },
-          ),
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              switch (value) {
-                case 'Tentang':
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TentangView()),
-                  );
-                  break;
-                case 'Logout':
-                  Provider.of<AuthProvider>(context, listen: false).clearUser();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  );
-                  break;
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem(
-                  value: 'Tentang',
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.info_outline,
-                        size: 15,
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        'Tentang',
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 'Logout',
-                  child: Text('Logout'),
-                ),
-              ];
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.list),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ViewLoadingScreen()),
-              );
-            },
-          ),
-        ],
       ),
       body: Column(
         children: [
@@ -142,7 +88,7 @@ class _HomeViewState extends State<HomeView> {
               width: 250,
               height: 130,
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Color(0xFF1A4D2E),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
@@ -223,24 +169,6 @@ class _HomeViewState extends State<HomeView> {
                       thickness: 2,
                       height: 20,
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          'Semua Hasil Panen',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Colors.white,
-                          size: 18,
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
@@ -262,42 +190,50 @@ class _HomeViewState extends State<HomeView> {
                     return lahan.namaLahan.toLowerCase().contains(searchQuery);
                   }).toList();
 
-                  return ListView.builder(
-                    itemCount: filteredLahanList.length,
-                    itemBuilder: (context, index) {
-                      var lahan = filteredLahanList[index];
-                      return Card(
-                        child: ListTile(
-                          title: Text(lahan.namaLahan),
-                          onTap: () {
-                            // Navigasi ke halaman ViewPanen dengan membawa data lahan jika diperlukan
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ViewPanen(lahan: lahan)),
-                            );
-                          },
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.edit),
-                                onPressed: () {
-                                  // Delete action
-                                },
+                  return Container(
+                    height: 400,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      itemCount: filteredLahanList.length,
+                      itemBuilder: (context, index) {
+                        var lahan = filteredLahanList[index];
+                        return Container(
+                          margin:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+                          height: 80,
+                          child: Card(
+                            child: ListTile(
+                              title: Text(lahan.namaLahan),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ViewPanen(lahan: lahan)),
+                                );
+                              },
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.edit),
+                                    onPressed: () {
+                                      // Edit action
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () {
+                                      // Delete action
+                                    },
+                                  ),
+                                ],
                               ),
-                              IconButton(
-                                icon: Icon(Icons.delete),
-                                onPressed: () {
-                                  // Delete action
-                                },
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   );
                 }
               },
@@ -305,6 +241,109 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 6.0,
+        child: Container(
+          height: 60.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.home),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomeView(userId: widget.userId),
+                    ),
+                  );
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  showSearchDialog(context);
+                },
+              ),
+              SizedBox(width: 10),
+              IconButton(
+                icon: Icon(Icons.list),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewLoadingScreen()),
+                  );
+                },
+              ),
+              PopupMenuButton<String>(
+                icon: Icon(
+                    Icons.person), // Menentukan ikon yang ingin ditampilkan
+                onSelected: (value) {
+                  switch (value) {
+                    case 'Tentang':
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TentangView()),
+                      );
+                      break;
+                    case 'Logout':
+                      Provider.of<AuthProvider>(context, listen: false)
+                          .clearUser();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                      break;
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem(
+                      value: 'Tentang',
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            size: 15,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Tentang',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'Logout',
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.exit_to_app,
+                            size: 15,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Logout',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ];
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           bool? added = await Navigator.push(
@@ -318,9 +357,10 @@ class _HomeViewState extends State<HomeView> {
           }
         },
         child: Icon(Icons.add),
+        backgroundColor: Colors.blue,
         shape: CircleBorder(),
+        elevation: 8.0,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
