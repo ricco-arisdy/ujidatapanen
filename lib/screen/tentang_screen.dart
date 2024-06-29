@@ -9,6 +9,7 @@ class TentangView extends StatefulWidget {
 class _TentangViewState extends State<TentangView> {
   String _username = '';
   String _email = '';
+  String _tanggalBergabung = '';
 
   @override
   void initState() {
@@ -21,6 +22,7 @@ class _TentangViewState extends State<TentangView> {
     setState(() {
       _username = prefs.getString('username') ?? '';
       _email = prefs.getString('email') ?? '';
+      _tanggalBergabung = prefs.getString('tanggalBergabung') ?? '';
     });
   }
 
@@ -43,7 +45,7 @@ class _TentangViewState extends State<TentangView> {
             borderRadius: BorderRadius.circular(16.0),
           ),
           child: Container(
-            height: 200,
+            height: 300,
             width: 350,
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -74,6 +76,9 @@ class _TentangViewState extends State<TentangView> {
                   buildInfoRow(Icons.account_circle, 'Username', _username),
                   SizedBox(height: 12),
                   buildInfoRow(Icons.email, 'Email', _email),
+                  SizedBox(height: 12),
+                  buildInfoRow(
+                      Icons.date_range, 'Tanggal Bergabung', _tanggalBergabung),
                 ],
               ),
             ),

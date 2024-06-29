@@ -16,8 +16,11 @@ class LoginService {
       if (jsonResponse['status'] == 'success') {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String? username = jsonResponse['username'];
+        String? tanggalBergabung = jsonResponse['tanggalBergabung'];
         print('Username from response: $username');
+        print('tanggalBergabung from response: $tanggalBergabung');
         prefs.setString('username', username ?? '');
+        prefs.setString('tanggalBergabung', tanggalBergabung ?? '');
         prefs.setString('email', email);
 
         print('Data login berhasil disimpan ke dalam SharedPreferences');
