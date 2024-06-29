@@ -19,12 +19,34 @@ class _LoginPageState extends State<LoginPage> {
   String errorMessage = '';
 
   bool isRegisterTextButtonHovered = false;
-  bool isLoginTextButtonHovered = false;
+  bool isLoginTextButtonHovered = true; // Default to true for Login Screen
 
   @override
   void initState() {
     _loginController = LoginController();
     super.initState();
+  }
+
+  void _navigateToRegister(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => RegisterPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      ),
+    );
   }
 
   @override
@@ -35,6 +57,7 @@ class _LoginPageState extends State<LoginPage> {
         child: ClipPath(
           clipper: WaveClipper(),
           child: AppBar(
+            automaticallyImplyLeading: false,
             title: const Text(
               'Tani Jaya',
               style: TextStyle(
@@ -82,41 +105,44 @@ class _LoginPageState extends State<LoginPage> {
                         onEnter: (_) {
                           setState(() {
                             isLoginTextButtonHovered = true;
+                            isRegisterTextButtonHovered = false;
                           });
                         },
                         onExit: (_) {
                           setState(() {
-                            isLoginTextButtonHovered = false;
+                            isLoginTextButtonHovered = true;
                           });
                         },
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            decoration: isLoginTextButtonHovered
-                                ? TextDecoration.underline
-                                : TextDecoration.none,
-                            color: isLoginTextButtonHovered
-                                ? Color.fromARGB(255, 92, 227, 96)
-                                : Colors.black,
-                          ),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            if (!isRegisterTextButtonHovered)
+                              Container(
+                                margin: const EdgeInsets.only(top: 2),
+                                height: 2,
+                                width: 60,
+                                color: Colors.green,
+                              ),
+                          ],
                         ),
                       ),
                     ),
                     SizedBox(width: 100),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterPage()),
-                        );
+                        _navigateToRegister(context);
                       },
                       child: MouseRegion(
                         onEnter: (_) {
                           setState(() {
                             isRegisterTextButtonHovered = true;
+                            isLoginTextButtonHovered = false;
                           });
                         },
                         onExit: (_) {
@@ -124,18 +150,29 @@ class _LoginPageState extends State<LoginPage> {
                             isRegisterTextButtonHovered = false;
                           });
                         },
-                        child: Text(
-                          'Register',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            decoration: isRegisterTextButtonHovered
-                                ? TextDecoration.underline
-                                : TextDecoration.none,
-                            color: isRegisterTextButtonHovered
-                                ? Color.fromARGB(255, 92, 227, 96)
-                                : Colors.black,
-                          ),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Register',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                decoration: isRegisterTextButtonHovered
+                                    ? TextDecoration.underline
+                                    : TextDecoration.none,
+                                color: isRegisterTextButtonHovered
+                                    ? Color.fromARGB(255, 92, 227, 96)
+                                    : Colors.black,
+                              ),
+                            ),
+                            if (isRegisterTextButtonHovered)
+                              Container(
+                                margin: const EdgeInsets.only(top: 2),
+                                height: 2,
+                                width: 60,
+                                color: Colors.green,
+                              ),
+                          ],
                         ),
                       ),
                     ),
@@ -240,7 +277,7 @@ class WaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    path.lineTo(-0, size.height - 50);
+    path.lineTo(0, size.height - 50);
     var firstControlPoint = Offset(size.width / 4, size.height);
     var firstEndPoint = Offset(size.width / 2, size.height - 50);
     var secondControlPoint = Offset(size.width * 3 / 4, size.height - 100);

@@ -20,7 +20,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  late Future<List<Lahan>> _lahanFuture; // Menggunakan List<Lahan> daripada List<dynamic>
+  late Future<List<Lahan>>
+      _lahanFuture; // Menggunakan List<Lahan> daripada List<dynamic>
   String searchQuery = '';
   bool _isTextVisible = true;
 
@@ -69,6 +70,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Tani Jaya'),
         actions: [
           IconButton(
@@ -271,7 +273,9 @@ class _HomeViewState extends State<HomeView> {
                             // Navigasi ke halaman ViewPanen dengan membawa data lahan jika diperlukan
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => ViewPanen(lahan: lahan)),
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ViewPanen(lahan: lahan)),
                             );
                           },
                           trailing: Row(
