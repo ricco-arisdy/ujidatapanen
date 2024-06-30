@@ -80,7 +80,18 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFF1A4D2E),
+        title: Text(
+          'Tani Jaya Company',
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
       ),
+      backgroundColor: Color(0xFF1A4D2E),
       body: Column(
         children: [
           Center(
@@ -88,88 +99,92 @@ class _HomeViewState extends State<HomeView> {
               width: 250,
               height: 130,
               decoration: BoxDecoration(
-                color: Color(0xFF1A4D2E),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Hasil Panen Semua Lahan',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
+              child: Material(
+                elevation: 20, // Menentukan nilai elevation untuk efek 3D
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0xFF059212),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hasil Panen Semua Lahan',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        AnimatedOpacity(
-                          opacity: _isTextVisible ? 1.0 : 0.0,
-                          duration: Duration(milliseconds: 500),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Text(
-                                _isTextVisible ? 'Kg 1000' : '...',
-                                style: TextStyle(
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          AnimatedOpacity(
+                            opacity: _isTextVisible ? 1.0 : 0.0,
+                            duration: Duration(milliseconds: 500),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Text(
+                                  _isTextVisible ? 'Kg 1000' : '...',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                if (!_isTextVisible)
+                                  SizedBox(
+                                    width: 18,
+                                    height: 18,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _isTextVisible = !_isTextVisible;
+                              });
+                            },
+                            child: Stack(
+                              children: [
+                                Icon(
+                                  Icons.remove_red_eye_outlined,
                                   color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                                  size: 18,
                                 ),
-                              ),
-                              if (!_isTextVisible)
-                                SizedBox(
-                                  width: 18,
-                                  height: 18,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.white,
+                                if (!_isTextVisible)
+                                  Positioned.fill(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: SvgPicture.asset(
+                                        'assets/line.svg',
+                                        color: Colors.white,
+                                        height: 18,
+                                      ),
                                     ),
                                   ),
-                                ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 10),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isTextVisible = !_isTextVisible;
-                            });
-                          },
-                          child: Stack(
-                            children: [
-                              Icon(
-                                Icons.remove_red_eye_outlined,
-                                color: Colors.white,
-                                size: 18,
-                              ),
-                              if (!_isTextVisible)
-                                Positioned.fill(
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: SvgPicture.asset(
-                                      'assets/line.svg',
-                                      color: Colors.white,
-                                      height: 18,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.white,
-                      thickness: 2,
-                      height: 20,
-                    ),
-                  ],
+                        ],
+                      ),
+                      Divider(
+                        color: Colors.white,
+                        thickness: 2,
+                        height: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -201,33 +216,48 @@ class _HomeViewState extends State<HomeView> {
                           margin:
                               EdgeInsets.symmetric(vertical: 5, horizontal: 16),
                           height: 80,
-                          child: Card(
-                            child: ListTile(
-                              title: Text(lahan.namaLahan),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
+                          child: Opacity(
+                            opacity: 0.8, // Atur nilai opacity sesuai keinginan
+                            child: Card(
+                              color: Colors.white
+                                  .withOpacity(0.10), // Atur warna transparan
+                              elevation:
+                                  4, // Atur nilai elevation untuk efek 3D
+                              child: ListTile(
+                                title: Text(
+                                  lahan.namaLahan,
+                                  style: TextStyle(
+                                      color:
+                                          Colors.white), // Sesuaikan warna teks
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
                                       builder: (context) =>
-                                          ViewPanen(lahan: lahan)),
-                                );
-                              },
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: Icon(Icons.edit),
-                                    onPressed: () {
-                                      // Edit action
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.delete),
-                                    onPressed: () {
-                                      // Delete action
-                                    },
-                                  ),
-                                ],
+                                          ViewPanen(lahan: lahan),
+                                    ),
+                                  );
+                                },
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.edit),
+                                      color: Color.fromARGB(255, 248, 248, 249),
+                                      onPressed: () {
+                                        // Edit action
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete),
+                                      color: Color.fromARGB(255, 248, 248, 249),
+                                      onPressed: () {
+                                        // Delete action
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -244,6 +274,7 @@ class _HomeViewState extends State<HomeView> {
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         notchMargin: 6.0,
+        color: Color(0xFF059212),
         child: Container(
           height: 60.0,
           child: Row(
@@ -357,7 +388,7 @@ class _HomeViewState extends State<HomeView> {
           }
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color.fromARGB(255, 191, 200, 205),
         shape: CircleBorder(),
         elevation: 8.0,
       ),
