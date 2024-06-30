@@ -29,8 +29,24 @@ class _LahanScreenState extends State<LahanScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tambah Lahan'),
+        backgroundColor: Color(0xFF1A4D2E),
+        title: Text(
+          'Tambah Lahan',
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pop(context); // Navigasi kembali normal
+          },
+        ),
       ),
+      backgroundColor: Color(0xFF1A4D2E),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -38,16 +54,26 @@ class _LahanScreenState extends State<LahanScreen> {
           children: [
             TextFormField(
               controller: namaLahanController,
-              decoration: const InputDecoration(labelText: 'Nama Lahan'),
+              decoration: InputDecoration(
+                labelText: 'Nama Lahan',
+                labelStyle: TextStyle(
+                    color: Colors.white), // Atur warna label teks di sini
+              ),
             ),
             TextFormField(
               controller: lokasiController,
-              decoration: const InputDecoration(labelText: 'Lokasi'),
+              decoration: InputDecoration(
+                labelText: 'Lokasi',
+                labelStyle: TextStyle(color: Colors.white),
+              ),
             ),
             TextFormField(
               controller: luasController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Luas'),
+              decoration: InputDecoration(
+                labelText: 'Luas',
+                labelStyle: TextStyle(color: Colors.white),
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -75,7 +101,10 @@ class _LahanScreenState extends State<LahanScreen> {
                   Navigator.pop(context, true); // Kembali ke halaman HomeView
                 }
               },
-              child: const Text('Tambah Lahan'),
+              style: ButtonStyle(
+                fixedSize: MaterialStateProperty.all(Size(250, 50)),
+              ),
+              child: Text('Tambah Lahan', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),

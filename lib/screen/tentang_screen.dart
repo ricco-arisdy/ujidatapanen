@@ -30,14 +30,24 @@ class _TentangViewState extends State<TentangView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tentang'),
+        backgroundColor: Color(0xFF1A4D2E),
+        title: Text(
+          'Tentang',
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
+          color: Colors.white,
           onPressed: () {
             Navigator.pop(context); // Navigasi kembali normal
           },
         ),
       ),
+      backgroundColor: Color(0xFF1A4D2E),
       body: Center(
         child: Card(
           elevation: 8,
@@ -48,16 +58,23 @@ class _TentangViewState extends State<TentangView> {
             height: 300,
             width: 350,
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.0),
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.blueAccent,
-                  Colors.pinkAccent,
-                  Colors.orangeAccent,
+                  Color(0xFF00695C),
+                  Color(0xFF00695C),
                 ],
               ),
-              borderRadius: BorderRadius.circular(16.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 7,
+                  offset: Offset(0, 1), // changes position of shadow
+                ),
+              ],
             ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
