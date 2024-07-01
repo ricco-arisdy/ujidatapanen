@@ -9,6 +9,7 @@ import 'package:ujidatapanen/screen/login_screen.dart';
 import 'package:ujidatapanen/screen/tentang_screen.dart';
 import 'package:ujidatapanen/service/ViewLahanService.dart';
 import 'package:ujidatapanen/model/lahan.dart';
+import 'package:ujidatapanen/service/deleteLahanService.dart'; // Import deleteLahanService
 
 class HomeView extends StatefulWidget {
   final int userId;
@@ -23,6 +24,8 @@ class _HomeViewState extends State<HomeView> {
   late Future<List<Lahan>> _lahanFuture;
   String searchQuery = '';
   bool _isTextVisible = true;
+  final LahanService _lahanService =
+      LahanService(); // Instance of LahanService for delete operation
 
   @override
   void initState() {
@@ -73,6 +76,18 @@ class _HomeViewState extends State<HomeView> {
         );
       },
     );
+  }
+
+  Future<void> _deleteLahan(int id) async {
+    try {
+      await _lahanService.deleteLahan(id);
+      setState(() {
+        fetchData();
+      });
+    } catch (e) {
+      // Handle error jika penghapusan gagal
+      print('Failed to delete lahan: $e');
+    }
   }
 
   @override
@@ -253,7 +268,32 @@ class _HomeViewState extends State<HomeView> {
                                       icon: Icon(Icons.delete),
                                       color: Color.fromARGB(255, 248, 248, 249),
                                       onPressed: () {
-                                        // Delete action
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text('Delete Lahan'),
+                                              content: Text(
+                                                  'Are you sure you want to delete ${lahan.namaLahan}?'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: Text('Cancel'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: Text('Delete'),
+                                                  onPressed: () async {
+                                                    Navigator.of(context).pop();
+                                                    await _deleteLahan(lahan
+                                                        .id); // Panggil fungsi delete
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
                                       },
                                     ),
                                   ],

@@ -2,12 +2,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class LahanService {
-  static const String baseUrl =
-      "http://192.168.100.6/api_pam/delete_lahan.php"; // Update with your API URL
+  static const String baseUrl = "http://192.168.100.6/api_pam/delete_lahan.php";
 
   Future<void> deleteLahan(int id) async {
     try {
-      var url = Uri.parse('$baseUrl/delete_lahan.php');
+      var url = Uri.parse('$baseUrl');
       var response = await http.delete(
         url,
         headers: <String, String>{
