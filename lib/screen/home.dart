@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ujidatapanen/provider/AuthProvider.dart';
 import 'package:ujidatapanen/screen/AddLahan_Screen.dart';
-import 'package:ujidatapanen/screen/ViewLahan.dart';
+import 'package:ujidatapanen/screen/ViewLahanDetail.dart';
 import 'package:ujidatapanen/screen/ViewLoadingScreen.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
 import 'package:ujidatapanen/screen/tentang_screen.dart';
@@ -235,7 +235,7 @@ class _HomeViewState extends State<HomeView> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          ViewPanen(lahan: lahan),
+                                          ViewLahanDetail(lahan: lahan),
                                     ),
                                   );
                                 },
