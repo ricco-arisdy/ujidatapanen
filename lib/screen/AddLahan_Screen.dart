@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ujidatapanen/controller/Lahan_Controller.dart';
 import 'package:ujidatapanen/model/lahan.dart';
 import 'package:ujidatapanen/provider/AuthProvider.dart';
+import 'package:ujidatapanen/screen/map_screen.dart';
 
 class LahanScreen extends StatefulWidget {
   const LahanScreen({Key? key}) : super(key: key);
@@ -16,12 +17,7 @@ class _LahanScreenState extends State<LahanScreen> {
   TextEditingController namaLahanController = TextEditingController();
   TextEditingController lokasiController = TextEditingController();
   TextEditingController luasController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    // Tambahkan kode inisialisasi lainnya di sini jika diperlukan
-  }
+  String? _lokasi;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +25,7 @@ class _LahanScreenState extends State<LahanScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF1A4D2E),
+        backgroundColor: Color.fromARGB(255, 11, 37, 22),
         title: Text(
           'Tambah Lahan',
           style: TextStyle(
@@ -57,7 +53,8 @@ class _LahanScreenState extends State<LahanScreen> {
               decoration: InputDecoration(
                 labelText: 'Nama Lahan',
                 labelStyle: TextStyle(
-                    color: Colors.white), // Atur warna label teks di sini
+                  color: Colors.white,
+                ),
               ),
             ),
             TextFormField(
@@ -66,6 +63,31 @@ class _LahanScreenState extends State<LahanScreen> {
                 labelText: 'Lokasi',
                 labelStyle: TextStyle(color: Colors.white),
               ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(_lokasi ?? 'Lokasi belum dipilih'),
+                ),
+                IconButton(
+                  icon: Icon(Icons.map),
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MapScreen(
+                          onLocationSelected: (selectedLocation) {
+                            setState(() {
+                              _lokasi = selectedLocation;
+                              lokasiController.text = selectedLocation;
+                            });
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
             TextFormField(
               controller: luasController,

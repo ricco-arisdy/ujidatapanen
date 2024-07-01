@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ujidatapanen/controller/AddLoadingController.dart';
 import 'package:ujidatapanen/model/loading.dart';
 import 'package:ujidatapanen/provider/AuthProvider.dart';
-import 'package:ujidatapanen/screen/home.dart';
+import 'package:ujidatapanen/screen/map_screen.dart';
 
 class AddLoadingScreen extends StatefulWidget {
   const AddLoadingScreen({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class _AddLoadingScreenState extends State<AddLoadingScreen> {
   TextEditingController namaLoadingController = TextEditingController();
   TextEditingController pemilikController = TextEditingController();
   TextEditingController alamatController = TextEditingController();
-  TextEditingController lokasiController = TextEditingController();
+  String? _lokasi;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +44,30 @@ class _AddLoadingScreenState extends State<AddLoadingScreen> {
               controller: alamatController,
               decoration: const InputDecoration(labelText: 'Alamat'),
             ),
-            TextFormField(
-              controller: lokasiController,
-              decoration: const InputDecoration(labelText: 'Lokasi'),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(_lokasi ?? 'Lokasi belum dipilih'),
+                ),
+                IconButton(
+                  icon: Icon(Icons.map),
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MapScreen(
+                          onLocationSelected: (selectedLocation) {
+                            setState(() {
+                              _lokasi = selectedLocation;
+                            });
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -54,7 +75,18 @@ class _AddLoadingScreenState extends State<AddLoadingScreen> {
                 String namaLoading = namaLoadingController.text;
                 String pemilik = pemilikController.text;
                 String alamat = alamatController.text;
-                String lokasi = lokasiController.text;
+                String lokasi = _lokasi ?? '';
+
+                if (lokasi.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Lokasi harus dipilih'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return;
+                }
+
                 Loading loading = Loading(
                   id: 0, // id akan di-generate oleh database (auto increment)
                   namaLoading: namaLoading,
