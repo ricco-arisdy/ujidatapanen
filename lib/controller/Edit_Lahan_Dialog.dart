@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ujidatapanen/model/lahan.dart';
+import 'package:ujidatapanen/screen/map_screen.dart';
 import 'package:ujidatapanen/service/EditLahan_service.dart';
 
 class EditLahanDialog extends StatefulWidget {
@@ -23,6 +24,26 @@ class _EditLahanDialogState extends State<EditLahanDialog> {
     _namaLahan = widget.lahan.namaLahan;
     _lokasi = widget.lahan.lokasi;
     _luas = widget.lahan.luas;
+  }
+
+  void _selectLocation() async {
+    final selectedLocation = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MapScreen(
+          onLocationSelected: (location) {
+            setState(() {
+              _lokasi = location;
+            });
+          },
+        ),
+      ),
+    );
+    if (selectedLocation != null) {
+      setState(() {
+        _lokasi = selectedLocation;
+      });
+    }
   }
 
   @override
@@ -49,16 +70,14 @@ class _EditLahanDialogState extends State<EditLahanDialog> {
             ),
             TextFormField(
               initialValue: _lokasi,
-              decoration: InputDecoration(labelText: 'Lokasi'),
-              onSaved: (value) {
-                _lokasi = value!;
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Lokasi tidak boleh kosong';
-                }
-                return null;
-              },
+              decoration: InputDecoration(
+                labelText: 'Lokasi',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.map),
+                  onPressed: _selectLocation,
+                ),
+              ),
+              readOnly: true,
             ),
             TextFormField(
               initialValue: _luas.toString(),

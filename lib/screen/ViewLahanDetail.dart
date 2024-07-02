@@ -173,12 +173,17 @@ class _ViewLahanDetailState extends State<ViewLahanDetail> with RouteAware {
 
   Widget buildInfoRow(IconData icon, String label, String value) {
     return Row(
+      crossAxisAlignment:
+          CrossAxisAlignment.start, // Make sure content stacks vertically
       children: [
         Icon(icon, color: Colors.white),
         SizedBox(width: 8),
-        Text(
-          '$label: $value',
-          style: TextStyle(fontSize: 16, color: Colors.white),
+        Expanded(
+          // Expanded to make sure the text wraps within the available space
+          child: Text(
+            '$label: $value',
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ),
         ),
       ],
     );
