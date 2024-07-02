@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:ujidatapanen/controller/AddPanen_Controller.dart';
-
 import 'package:ujidatapanen/model/loading.dart';
 import 'package:ujidatapanen/model/panen.dart';
 import 'package:ujidatapanen/provider/AuthProvider.dart';
-
 import 'package:ujidatapanen/service/ViewLoading_Service.dart';
 
 class AddPanenScreen extends StatefulWidget {
@@ -62,6 +60,36 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
     }
   }
 
+  void _showImageSourceActionSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Gallery'),
+                onTap: () {
+                  _getImage(ImageSource.gallery);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Camera'),
+                onTap: () {
+                  _getImage(ImageSource.camera);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,10 +135,7 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
-                  _getImage(ImageSource
-                      .gallery); // Ganti dengan ImageSource.camera untuk mengambil dari kamera
-                },
+                onPressed: _showImageSourceActionSheet,
                 child: const Text('Pilih Foto'),
               ),
               if (imageFile != null) Image.file(imageFile!),
