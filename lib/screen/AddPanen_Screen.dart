@@ -64,8 +64,6 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int userId = Provider.of<AuthProvider>(context, listen: false).userId ?? 0;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tambah Panen'),
@@ -168,8 +166,8 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
                     idLoading: selectedLoadingId,
                   );
 
-                  bool createSuccess =
-                      await _panenController.createPanen(context, panen);
+                  bool createSuccess = await _panenController
+                      .createPanen(context, panen, imageFile: imageFile);
 
                   if (createSuccess) {
                     ScaffoldMessenger.of(context).showSnackBar(
