@@ -1,18 +1,17 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../model/user.dart';
+import '../model/loading.dart';
 
-class AuthService {
-  Future<bool> registerUser(User user) async {
-    var url = Uri.parse('http://192.168.0.197/api_pam/register.php');
+class EditLoadingService {
+  Future<bool> updateLoading(Loading loading) async {
+    var url = Uri.parse('http://192.168.0.197/api_pam/edit_loading.php');
     var response = await http.post(url, body: {
-      'id': user.id.toString(),
-      'username': user.username,
-      'alamat': user.alamat,
-      'no_telp': user.no_telp.toString(),
-      'email': user.email,
-      'password': user.password,
-      'tanggal_bergabung': user.tanggalBergabung ?? '',
+      'id': loading.id.toString(),
+      'nama_loading': loading.namaLoading,
+      'pemilik': loading.pemilik,
+      'alamat': loading.alamat,
+      'lokasi': loading.lokasi,
+      'user_id': loading.userId.toString(),
     });
 
     if (response.statusCode == 200) {

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ujidatapanen/controller/AddPanen_Controller.dart';
+import 'package:ujidatapanen/model/loading.dart';
 import 'package:ujidatapanen/model/panen.dart';
 import 'package:ujidatapanen/provider/AuthProvider.dart';
-import 'package:ujidatapanen/service/ViewLoadingService.dart';
+import 'package:ujidatapanen/service/ViewLoading_Service.dart';
 
 class AddPanenScreen extends StatefulWidget {
   final int idLahan;
@@ -23,7 +24,7 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
   TextEditingController deskripsiController = TextEditingController();
   TextEditingController idLoadingController = TextEditingController();
   int selectedLoadingId = 0;
-  List<dynamic> loadingList = []; // Untuk menyimpan daftar Loading
+  List<Loading> loadingList = []; // Untuk menyimpan daftar Loading
   DateTime selectedDate = DateTime.now();
 
   @override
@@ -36,12 +37,12 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
     try {
       int userId =
           Provider.of<AuthProvider>(context, listen: false).userId ?? 0;
-      List<dynamic> data = await ViewLoadingService().fetchLoading(userId);
+      List<Loading> data = await ViewLoadingService().fetchLoading(userId);
       setState(() {
         loadingList = data;
         if (loadingList.isNotEmpty) {
-          selectedLoadingId = loadingList[0][
-              'id']; // Inisialisasi selectedLoadingId dengan nilai pertama jika tersedia
+          selectedLoadingId = loadingList[0]
+              .id; // Inisialisasi selectedLoadingId dengan nilai pertama jika tersedia
         }
       });
     } catch (e) {
@@ -117,8 +118,8 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
                 value: selectedLoadingId,
                 items: loadingList.map((loading) {
                   return DropdownMenuItem<int>(
-                    value: loading['id'],
-                    child: Text(loading['nama_loading']),
+                    value: loading.id,
+                    child: Text(loading.namaLoading),
                   );
                 }).toList(),
                 onChanged: (int? value) {

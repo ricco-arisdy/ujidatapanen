@@ -4,7 +4,7 @@ import 'package:ujidatapanen/model/loading.dart';
 
 class LoadingService {
   Future<bool> createLoading(Loading loading) async {
-    var url = Uri.parse('http://192.168.100.6/api_pam/add_loading.php');
+    var url = Uri.parse('http://192.168.0.197/api_pam/add_loading.php');
     var response = await http.post(url, body: {
       'nama_loading': loading.namaLoading,
       'pemilik': loading.pemilik,
