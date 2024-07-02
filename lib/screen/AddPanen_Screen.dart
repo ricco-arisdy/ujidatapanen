@@ -94,7 +94,14 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tambah Panen'),
+        title: Text(
+          'Tambah Panen',
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: const Color(0xFF1A4D2E),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -113,6 +120,7 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
             children: [
               TextFormField(
                 controller: noPanenController,
+                style: TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
                   labelText: 'No Panen',
                   labelStyle: TextStyle(color: Colors.white),
@@ -120,6 +128,7 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
               ),
               TextFormField(
                 controller: jumlahController,
+                style: TextStyle(color: Colors.white),
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   labelText: 'Jumlah',
@@ -128,6 +137,7 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
               ),
               TextFormField(
                 controller: hargaController,
+                style: TextStyle(color: Colors.white),
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   labelText: 'Harga',
@@ -141,6 +151,7 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
               if (imageFile != null) Image.file(imageFile!),
               TextFormField(
                 controller: deskripsiController,
+                style: TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
                   labelText: 'Deskripsi',
                   labelStyle: TextStyle(color: Colors.white),
@@ -148,6 +159,7 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
               ),
               const SizedBox(height: 20),
               DropdownButtonFormField<int>(
+                style: TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
                   labelText: 'Pilih Loading',
                   labelStyle: TextStyle(color: Colors.white),
@@ -207,10 +219,10 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green, // Ubah warna tombol jika perlu
+                  backgroundColor: Colors.white, // Ubah warna tombol jika perlu
                   textStyle: const TextStyle(fontSize: 16),
                   fixedSize:
-                      const Size(200, 50), // Ubah ukuran tombol jika perlu
+                      const Size(250, 50), // Ubah ukuran tombol jika perlu
                 ),
                 child: const Text('Simpan'),
               ),

@@ -25,8 +25,24 @@ class _AddLoadingScreenState extends State<AddLoadingScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tambah Loading'),
+        backgroundColor: Color(0xFF1A4D2E),
+        title: Text(
+          'Tambah Loading',
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pop(context); // Navigasi kembali normal
+          },
+        ),
       ),
+      backgroundColor: Color(0xFF1A4D2E),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -34,24 +50,49 @@ class _AddLoadingScreenState extends State<AddLoadingScreen> {
           children: [
             TextFormField(
               controller: namaLoadingController,
-              decoration: const InputDecoration(labelText: 'Nama Loading'),
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                labelText: 'Nama Loading',
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
             TextFormField(
               controller: pemilikController,
-              decoration: const InputDecoration(labelText: 'Pemilik'),
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                labelText: 'Pemilik',
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
             TextFormField(
               controller: alamatController,
-              decoration: const InputDecoration(labelText: 'Alamat'),
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                labelText: 'Alamat',
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
-                  child: Text(_lokasi ?? 'Lokasi belum dipilih'),
+                  child: Text(
+                    _lokasi ?? 'Lokasi belum dipilih',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.map),
+                  icon: Icon(Icons.map, color: Colors.white),
                   onPressed: () async {
                     Navigator.push(
                       context,
@@ -69,7 +110,7 @@ class _AddLoadingScreenState extends State<AddLoadingScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 String namaLoading = namaLoadingController.text;

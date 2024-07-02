@@ -50,7 +50,19 @@ class _ViewLahanDetailState extends State<ViewLahanDetail> with RouteAware {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail Lahan - ${widget.lahan.namaLahan}'),
+        title: Text(
+          'Detail Lahan - ${widget.lahan.namaLahan}',
+          style: TextStyle(
+            color: Colors.white, // Atur warna teks menjadi putih
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pop(context); // Navigasi kembali normal
+          },
+        ),
         backgroundColor: Color(0xFF1A4D2E),
       ),
       backgroundColor: Color(0xFF1A4D2E),
@@ -156,8 +168,15 @@ class _ViewLahanDetailState extends State<ViewLahanDetail> with RouteAware {
                       return Card(
                         child: ListTile(
                           title: Text(panen.noPanen),
-                          subtitle: Text('Jumlah: ${panen.jumlah} Kg'),
-                          trailing: Text('Harga: ${panen.harga}'),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Jumlah: ${panen.jumlah} Kg'),
+                              Text('Harga: ${panen.harga}'),
+                              Text(
+                                  'Tanggal Panen: ${panen.tanggalPanen.toIso8601String()}'),
+                            ],
+                          ),
                         ),
                       );
                     },

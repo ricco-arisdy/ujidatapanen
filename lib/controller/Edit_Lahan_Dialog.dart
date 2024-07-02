@@ -101,12 +101,6 @@ class _EditLahanDialogState extends State<EditLahanDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          child: Text('Cancel'),
-          onPressed: () {
-            Navigator.of(context).pop(false); // Batal tanpa menyimpan
-          },
-        ),
-        TextButton(
           child: Text('Save'),
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
@@ -157,6 +151,12 @@ class _EditLahanDialogState extends State<EditLahanDialog> {
                 );
               }
             }
+          },
+        ),
+        TextButton(
+          child: Text('Cancel'),
+          onPressed: () {
+            Navigator.of(context).pop(false); // Batal tanpa menyimpan
           },
         ),
       ],
