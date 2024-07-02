@@ -25,7 +25,7 @@ class _LahanScreenState extends State<LahanScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 11, 37, 22),
+        backgroundColor: Color(0xFF1A4D2E),
         title: Text(
           'Tambah Lahan',
           style: TextStyle(
@@ -50,6 +50,7 @@ class _LahanScreenState extends State<LahanScreen> {
           children: [
             TextFormField(
               controller: namaLahanController,
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: 'Nama Lahan',
                 labelStyle: TextStyle(
@@ -59,6 +60,7 @@ class _LahanScreenState extends State<LahanScreen> {
             ),
             TextFormField(
               controller: lokasiController,
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: 'Lokasi',
                 labelStyle: TextStyle(color: Colors.white),
@@ -67,10 +69,18 @@ class _LahanScreenState extends State<LahanScreen> {
             Row(
               children: [
                 Expanded(
-                  child: Text(_lokasi ?? 'Lokasi belum dipilih'),
+                  child: Text(
+                    _lokasi ?? 'Lokasi belum dipilih',
+                    style: TextStyle(
+                      color: Colors.white, // Ganti warna teks sesuai keinginan
+                      fontSize: 16, // Atur ukuran teks jika diperlukan
+                      fontWeight: FontWeight
+                          .bold, // Atur ketebalan teks jika diperlukan
+                    ),
+                  ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.map),
+                  icon: Icon(Icons.map, color: Colors.white),
                   onPressed: () async {
                     Navigator.push(
                       context,
@@ -92,6 +102,7 @@ class _LahanScreenState extends State<LahanScreen> {
             TextFormField(
               controller: luasController,
               keyboardType: TextInputType.number,
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: 'Luas',
                 labelStyle: TextStyle(color: Colors.white),

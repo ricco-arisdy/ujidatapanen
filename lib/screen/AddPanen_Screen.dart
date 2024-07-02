@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:ujidatapanen/controller/AddPanen_Controller.dart';
 import 'package:ujidatapanen/model/loading.dart';
@@ -22,7 +23,6 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
   TextEditingController hargaController = TextEditingController();
   TextEditingController fotoController = TextEditingController();
   TextEditingController deskripsiController = TextEditingController();
-  TextEditingController idLoadingController = TextEditingController();
   int selectedLoadingId = 0;
   List<Loading> loadingList = []; // Untuk menyimpan daftar Loading
   DateTime selectedDate = DateTime.now();
@@ -47,6 +47,15 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
       });
     } catch (e) {
       print('Error fetching loading data: $e');
+    }
+  }
+
+  Future<void> _getImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+    if (pickedFile != null) {
+      setState(() {
+        fotoController.text = pickedFile.path;
+      });
     }
   }
 
@@ -96,12 +105,58 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
                   labelStyle: TextStyle(color: Colors.white),
                 ),
               ),
-              TextFormField(
-                controller: fotoController,
-                decoration: const InputDecoration(
-                  labelText: 'Foto URL',
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  labelText: 'Pilih Foto',
                   labelStyle: TextStyle(color: Colors.white),
                 ),
+                value:
+                    fotoController.text.isNotEmpty ? fotoController.text : null,
+                dropdownColor: Colors.white,
+                iconSize: 30,
+                elevation: 5,
+                items: [
+                  DropdownMenuItem<String>(
+                    value: 'Gallery',
+                    child: Container(
+                      width: 200,
+                      height: 50,
+                      color: Colors.white,
+                      child: Row(
+                        children: const [
+                          Icon(Icons.photo_library,
+                              color: Colors.black, size: 24),
+                          SizedBox(width: 10),
+                          Text('Dari Galeri',
+                              style: TextStyle(color: Colors.black)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'Camera',
+                    child: Container(
+                      width: 200,
+                      height: 50,
+                      color: Colors.white,
+                      child: Row(
+                        children: const [
+                          Icon(Icons.camera_alt, color: Colors.black, size: 24),
+                          SizedBox(width: 10),
+                          Text('Dari Kamera',
+                              style: TextStyle(color: Colors.black)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+                onChanged: (String? value) {
+                  if (value == 'Gallery') {
+                    _getImage(ImageSource.gallery);
+                  } else if (value == 'Camera') {
+                    _getImage(ImageSource.camera);
+                  }
+                },
               ),
               TextFormField(
                 controller: deskripsiController,

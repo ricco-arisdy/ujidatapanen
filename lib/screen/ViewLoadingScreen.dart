@@ -232,39 +232,6 @@ class _ViewLoadingScreenState extends State<ViewLoadingScreen> {
             Navigator.pop(context); // Navigasi kembali normal
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            color: Colors.white,
-            onPressed: () {
-              showSearchDialog(context);
-            },
-          ),
-          PopupMenuButton<String>(
-            icon: Icon(Icons.menu),
-            onSelected: (value) {
-              if (value == 'Tentang') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TentangView()),
-                );
-              } else if (value == 'Logout') {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              return {'Tentang', 'Logout'}.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
-          ),
-        ],
       ),
       backgroundColor: Color(0xFF1A4D2E),
       body: FutureBuilder<List<Loading>>(
