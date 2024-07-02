@@ -4,6 +4,7 @@ import 'package:ujidatapanen/controller/EditLoading_Controller.dart';
 import 'package:ujidatapanen/model/loading.dart';
 import 'package:ujidatapanen/provider/AuthProvider.dart';
 import 'package:ujidatapanen/screen/ViewLoadingDetail.dart';
+import 'package:ujidatapanen/screen/home.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
 import 'package:ujidatapanen/screen/map_screen.dart';
 import 'package:ujidatapanen/screen/tentang_screen.dart';
@@ -232,39 +233,6 @@ class _ViewLoadingScreenState extends State<ViewLoadingScreen> {
             Navigator.pop(context); // Navigasi kembali normal
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            color: Colors.white,
-            onPressed: () {
-              showSearchDialog(context);
-            },
-          ),
-          PopupMenuButton<String>(
-            icon: Icon(Icons.menu),
-            onSelected: (value) {
-              if (value == 'Tentang') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TentangView()),
-                );
-              } else if (value == 'Logout') {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              return {'Tentang', 'Logout'}.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
-          ),
-        ],
       ),
       backgroundColor: Color(0xFF1A4D2E),
       body: FutureBuilder<List<Loading>>(
@@ -286,78 +254,76 @@ class _ViewLoadingScreenState extends State<ViewLoadingScreen> {
                 final loading = filteredLoadingList[index];
                 return Container(
                   margin: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-                  height: 80,
-                  child: Opacity(
-                    opacity: 0.8, // Atur nilai opacity sesuai keinginan
-                    child: Card(
-                      color: Colors.white
-                          .withOpacity(0.10), // Atur warna transparan
-                      elevation: 4, // Atur nilai elevation untuk efek 3D
-                      child: ListTile(
-                        title: Text(
-                          loading.namaLoading,
-                          style: TextStyle(
-                              color: Colors.white), // Sesuaikan warna teks
-                        ),
-                        subtitle: Text(
-                          loading.lokasi,
-                          style: TextStyle(
-                              color: Colors.white), // Sesuaikan warna teks
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ViewLoadingDetail(
-                                loading: loading,
-                                userId: userId,
-                              ),
+                  child: Card(
+                    color: Colors.white.withOpacity(0.10),
+                    elevation: 4,
+                    child: ListTile(
+                      title: Text(
+                        loading.namaLoading,
+                        style: TextStyle(color: Colors.white),
+                        maxLines: 1, // Atur jumlah maksimal baris teks
+                        overflow: TextOverflow.ellipsis, // Penanganan overflow
+                      ),
+                      subtitle: Text(
+                        loading.lokasi,
+                        style: TextStyle(color: Colors.white),
+                        maxLines: 1, // Atur jumlah maksimal baris teks
+                        overflow: TextOverflow.ellipsis, // Penanganan overflow
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewLoadingDetail(
+                              loading: loading,
+                              userId: userId,
                             ),
-                          );
-                        },
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: Icon(Icons.edit),
-                              color: Color.fromARGB(255, 248, 248, 249),
-                              onPressed: () {
-                                showEditDialog(context, loading);
-                              },
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.delete),
-                              color: Color.fromARGB(255, 248, 248, 249),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Delete Loading'),
-                                      content: Text(
-                                          'Are you sure you want to delete ${loading.namaLoading}?'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text('Cancel'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            deleteLoading(context, loading.id);
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text('Delete'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                        );
+                      },
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            color: Color.fromARGB(255, 248, 248, 249),
+                            onPressed: () {
+                              showEditDialog(context, loading);
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            color: Color.fromARGB(255, 248, 248, 249),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Delete Loading'),
+                                    content: Text(
+                                      'Are you sure you want to delete ${loading.namaLoading}?',
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          deleteLoading(context, loading.id);
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('Delete'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -367,6 +333,110 @@ class _ViewLoadingScreenState extends State<ViewLoadingScreen> {
           }
         },
       ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 6.0,
+        color: Color(0xFF059212),
+        child: Container(
+          height: 60.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.home),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomeView(userId: userId),
+                    ),
+                  );
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  showSearchDialog(context);
+                },
+              ),
+              SizedBox(width: 10),
+              IconButton(
+                icon: Icon(Icons.list),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewLoadingScreen()),
+                  );
+                },
+              ),
+              PopupMenuButton<String>(
+                icon: Icon(
+                    Icons.person), // Menentukan ikon yang ingin ditampilkan
+                onSelected: (value) {
+                  switch (value) {
+                    case 'Tentang':
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TentangView()),
+                      );
+                      break;
+                    case 'Logout':
+                      Provider.of<AuthProvider>(context, listen: false)
+                          .clearUser();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                      break;
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem(
+                      value: 'Tentang',
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            size: 15,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Tentang',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'Logout',
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.exit_to_app,
+                            size: 15,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Logout',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ];
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -379,7 +449,9 @@ class _ViewLoadingScreenState extends State<ViewLoadingScreen> {
           });
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.green,
+        backgroundColor: Color.fromARGB(255, 191, 200, 205),
+        shape: CircleBorder(),
+        elevation: 8.0,
       ),
     );
   }
