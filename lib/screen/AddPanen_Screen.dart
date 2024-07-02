@@ -1,10 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:ujidatapanen/controller/AddPanen_Controller.dart';
+
 import 'package:ujidatapanen/model/loading.dart';
 import 'package:ujidatapanen/model/panen.dart';
 import 'package:ujidatapanen/provider/AuthProvider.dart';
+
 import 'package:ujidatapanen/service/ViewLoading_Service.dart';
 
 class AddPanenScreen extends StatefulWidget {
@@ -21,11 +24,11 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
   TextEditingController noPanenController = TextEditingController();
   TextEditingController jumlahController = TextEditingController();
   TextEditingController hargaController = TextEditingController();
-  TextEditingController fotoController = TextEditingController();
   TextEditingController deskripsiController = TextEditingController();
   int selectedLoadingId = 0;
   List<Loading> loadingList = []; // Untuk menyimpan daftar Loading
   DateTime selectedDate = DateTime.now();
+  File? imageFile;
 
   @override
   void initState() {
@@ -54,7 +57,7 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
     final pickedFile = await ImagePicker().pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
-        fotoController.text = pickedFile.path;
+        imageFile = File(pickedFile.path);
       });
     }
   }
@@ -105,59 +108,14 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
                   labelStyle: TextStyle(color: Colors.white),
                 ),
               ),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  labelText: 'Pilih Foto',
-                  labelStyle: TextStyle(color: Colors.white),
-                ),
-                value:
-                    fotoController.text.isNotEmpty ? fotoController.text : null,
-                dropdownColor: Colors.white,
-                iconSize: 30,
-                elevation: 5,
-                items: [
-                  DropdownMenuItem<String>(
-                    value: 'Gallery',
-                    child: Container(
-                      width: 200,
-                      height: 50,
-                      color: Colors.white,
-                      child: Row(
-                        children: const [
-                          Icon(Icons.photo_library,
-                              color: Colors.black, size: 24),
-                          SizedBox(width: 10),
-                          Text('Dari Galeri',
-                              style: TextStyle(color: Colors.black)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: 'Camera',
-                    child: Container(
-                      width: 200,
-                      height: 50,
-                      color: Colors.white,
-                      child: Row(
-                        children: const [
-                          Icon(Icons.camera_alt, color: Colors.black, size: 24),
-                          SizedBox(width: 10),
-                          Text('Dari Kamera',
-                              style: TextStyle(color: Colors.black)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-                onChanged: (String? value) {
-                  if (value == 'Gallery') {
-                    _getImage(ImageSource.gallery);
-                  } else if (value == 'Camera') {
-                    _getImage(ImageSource.camera);
-                  }
+              ElevatedButton(
+                onPressed: () {
+                  _getImage(ImageSource
+                      .gallery); // Ganti dengan ImageSource.camera untuk mengambil dari kamera
                 },
+                child: const Text('Pilih Foto'),
               ),
+              if (imageFile != null) Image.file(imageFile!),
               TextFormField(
                 controller: deskripsiController,
                 decoration: const InputDecoration(
@@ -165,6 +123,7 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
                   labelStyle: TextStyle(color: Colors.white),
                 ),
               ),
+              const SizedBox(height: 20),
               DropdownButtonFormField<int>(
                 decoration: const InputDecoration(
                   labelText: 'Pilih Loading',
@@ -190,17 +149,11 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
                 },
               ),
               const SizedBox(height: 20),
-              Text(
-                'ID Lahan: ${widget.idLahan}',
-                style: const TextStyle(color: Colors.white),
-              ),
-              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   String noPanen = noPanenController.text;
                   double jumlah = double.tryParse(jumlahController.text) ?? 0.0;
                   double harga = double.tryParse(hargaController.text) ?? 0.0;
-                  String foto = fotoController.text;
                   String deskripsi = deskripsiController.text;
 
                   Panen panen = Panen(
@@ -209,7 +162,7 @@ class _AddPanenScreenState extends State<AddPanenScreen> {
                     tanggalPanen: selectedDate,
                     jumlah: jumlah,
                     harga: harga,
-                    foto: foto,
+                    foto: imageFile != null ? imageFile!.path : '',
                     deskripsi: deskripsi,
                     idLahan: widget.idLahan,
                     idLoading: selectedLoadingId,
