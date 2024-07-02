@@ -34,11 +34,13 @@ class _ViewLoadingDetailState extends State<ViewLoadingDetail> {
 
   void _addSaldoAndDeletePanen() async {
     try {
-      bool success = await AddSaldoController().addSaldo(widget.loading.id, widget.userId);
+      bool success =
+          await AddSaldoController().addSaldo(widget.loading.id, widget.userId);
       if (success) {
         _loadPanenData();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Panen berhasil dijual dan saldo ditambahkan')),
+          SnackBar(
+              content: Text('Panen berhasil dijual dan saldo ditambahkan')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -182,12 +184,17 @@ class _ViewLoadingDetailState extends State<ViewLoadingDetail> {
 
   Widget buildInfoRow(IconData icon, String label, String value) {
     return Row(
+      crossAxisAlignment:
+          CrossAxisAlignment.start, // Make sure content stacks vertically
       children: [
         Icon(icon, color: Colors.white),
         SizedBox(width: 8),
-        Text(
-          '$label: $value',
-          style: TextStyle(fontSize: 16, color: Colors.white),
+        Expanded(
+          // Expanded to make sure the text wraps within the available space
+          child: Text(
+            '$label: $value',
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ),
         ),
       ],
     );

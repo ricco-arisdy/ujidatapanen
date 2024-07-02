@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class DeleteLoadingService {
   Future<bool> deleteLoading(int id) async {
-    var url = Uri.parse('http://192.168.0.197/api_pam/delete_loading.php');
+    var url = Uri.parse('http://192.168.100.6/api_pam/delete_loading.php');
     try {
       var response = await http.post(
         url,

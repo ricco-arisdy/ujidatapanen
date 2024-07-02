@@ -5,7 +5,7 @@ import 'package:path/path.dart';
 import '../model/panen.dart';
 
 class PanenService {
-  final String baseUrl = 'http://192.168.0.197/api_pam/';
+  final String baseUrl = 'http://192.168.100.6/api_pam/';
   final String endpoint = 'add_panen.php';
 
   Uri getUri(String path) {

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:ujidatapanen/model/loading.dart';
 
 class ViewLoadingService {
-  static const String apiUrl = 'http://192.168.0.197/api_pam/get_loading.php';
+  static const String apiUrl = 'http://192.168.100.6/api_pam/get_loading.php';
 
   Future<List<Loading>> fetchLoading(int userId) async {
     final response = await http.get(Uri.parse('$apiUrl?user_id=$userId'));

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:ujidatapanen/model/panen.dart';
 
 class ViewPanenService {
-  static const String apiUrl = 'http://192.168.0.197/api_pam/get_panen.php';
+  static const String apiUrl = 'http://192.168.100.6/api_pam/get_panen.php';
 
   Future<List<Panen>> fetchPanen(int idLahan) async {
     final response = await http.get(Uri.parse('$apiUrl?id_lahan=$idLahan'));
