@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ujidatapanen/controller/AddSaldoController.dart';
 import 'package:ujidatapanen/model/loading.dart';
 import 'package:ujidatapanen/model/panen.dart';
+import 'package:ujidatapanen/screen/AddLoadingScreen.dart';
 import 'package:ujidatapanen/service/ViewPanenServicebyLoading.dart';
 
 class ViewLoadingDetail extends StatefulWidget {
@@ -39,12 +40,12 @@ class _ViewLoadingDetailState extends State<ViewLoadingDetail> {
       if (success) {
         _loadPanenData();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('Panen berhasil dijual dan saldo ditambahkan')),
+          SnackBar(content: Text('Gagal menjual panen')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal menjual panen')),
+          SnackBar(
+              content: Text('Panen berhasil dijual dan saldo ditambahkan')),
         );
       }
     } catch (e) {
@@ -58,19 +59,7 @@ class _ViewLoadingDetailState extends State<ViewLoadingDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Detail Loading - ${widget.loading.namaLoading}',
-          style: TextStyle(
-            color: Colors.white, // Atur warna teks menjadi putih
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: Colors.white,
-          onPressed: () {
-            Navigator.pop(context); // Navigasi kembali normal
-          },
-        ),
+        title: Text('Detail Loading - ${widget.loading.namaLoading}'),
         backgroundColor: Color(0xFF1A4D2E),
       ),
       backgroundColor: Color(0xFF1A4D2E),
@@ -165,15 +154,8 @@ class _ViewLoadingDetailState extends State<ViewLoadingDetail> {
                       return Card(
                         child: ListTile(
                           title: Text(panen.noPanen),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Jumlah: ${panen.jumlah} Kg'),
-                              Text('Harga: ${panen.harga}'),
-                              Text(
-                                  'Tanggal Panen: ${panen.tanggalPanen.toIso8601String()}'),
-                            ],
-                          ),
+                          subtitle: Text('Jumlah: ${panen.jumlah} Kg'),
+                          trailing: Text('Harga: ${panen.harga}'),
                         ),
                       );
                     },
@@ -203,8 +185,7 @@ class _ViewLoadingDetailState extends State<ViewLoadingDetail> {
 
   Widget buildInfoRow(IconData icon, String label, String value) {
     return Row(
-      crossAxisAlignment:
-          CrossAxisAlignment.start, // Make sure content stacks vertically
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(icon, color: Colors.white),
         SizedBox(width: 8),

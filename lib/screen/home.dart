@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ujidatapanen/controller/Edit_Lahan_Dialog.dart';
 import 'package:ujidatapanen/provider/AuthProvider.dart';
@@ -11,6 +10,7 @@ import 'package:ujidatapanen/screen/tentang_screen.dart';
 import 'package:ujidatapanen/service/ViewLahanService.dart';
 import 'package:ujidatapanen/model/lahan.dart';
 import 'package:ujidatapanen/service/deleteLahanService.dart';
+import 'package:ujidatapanen/service/ViewSaldoService.dart';
 
 class HomeView extends StatefulWidget {
   final int userId;
@@ -23,8 +23,10 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   late Future<List<Lahan>> _lahanFuture;
+  late Future<Map<String, dynamic>> _saldoFuture; // Future untuk data saldo
   String searchQuery = '';
-  bool _isTextVisible = true;
+  bool _isPendapatanVisible = true;
+  bool _isTotalPanenVisible = true;
   final LahanService _lahanService =
       LahanService(); // Instance of LahanService for delete operation
 
@@ -32,10 +34,16 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     fetchData();
+    fetchSaldo(); // Panggil fungsi untuk mengambil data saldo
   }
 
   void fetchData() {
     _lahanFuture = ViewLahanService().fetchLahan(widget.userId);
+  }
+
+  void fetchSaldo() {
+    _saldoFuture = ViewSaldoService()
+        .getSaldo(widget.userId); // Ambil saldo berdasarkan userId
   }
 
   void showSearchDialog(BuildContext context) {
@@ -112,7 +120,7 @@ class _HomeViewState extends State<HomeView> {
         children: [
           Center(
             child: Container(
-              width: 250,
+              width: 325,
               height: 130,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -126,73 +134,134 @@ class _HomeViewState extends State<HomeView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Hasil Panen Semua Lahan',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        children: [
-                          AnimatedOpacity(
-                            opacity: _isTextVisible ? 1.0 : 0.0,
-                            duration: Duration(milliseconds: 500),
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Text(
-                                  _isTextVisible ? 'Kg 1000' : '...',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                if (!_isTextVisible)
-                                  SizedBox(
-                                    width: 18,
-                                    height: 18,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.white,
+                      // Bagian yang menampilkan Total Panen dan Pendapatan
+                      // Bagian yang menampilkan Total Panen dan Pendapatan
+                      FutureBuilder<Map<String, dynamic>>(
+                        future: _saldoFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else if (!snapshot.hasData) {
+                            return Text('Loading...');
+                          } else {
+                            double totalPanen =
+                                (snapshot.data!['total_panen'] ?? 0).toDouble();
+                            double pendapatan =
+                                (snapshot.data!['pendapatan'] ?? 0).toDouble();
+
+                            return Container(
+                              width: double.infinity,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Total Panen',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
                                       ),
+                                      SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          AnimatedOpacity(
+                                            opacity: _isTotalPanenVisible
+                                                ? 1.0
+                                                : 0.0,
+                                            duration:
+                                                Duration(milliseconds: 500),
+                                            child: Text(
+                                              '${totalPanen.toStringAsFixed(2)} Kg',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _isTotalPanenVisible =
+                                            !_isTotalPanenVisible;
+                                      });
+                                    },
+                                    child: Icon(
+                                      _isTotalPanenVisible
+                                          ? Icons.remove_red_eye_outlined
+                                          : Icons.visibility_off,
+                                      color: Colors.white,
+                                      size: 18,
                                     ),
                                   ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _isTextVisible = !_isTextVisible;
-                              });
-                            },
-                            child: Stack(
-                              children: [
-                                Icon(
-                                  Icons.remove_red_eye_outlined,
-                                  color: Colors.white,
-                                  size: 18,
-                                ),
-                                if (!_isTextVisible)
-                                  Positioned.fill(
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: SvgPicture.asset(
-                                        'assets/line.svg',
-                                        color: Colors.white,
-                                        height: 18,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Pendapatan',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
                                       ),
+                                      SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          AnimatedOpacity(
+                                            opacity: _isPendapatanVisible
+                                                ? 1.0
+                                                : 0.0,
+                                            duration:
+                                                Duration(milliseconds: 500),
+                                            child: Text(
+                                              'Rp ${pendapatan.toStringAsFixed(0)}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _isPendapatanVisible =
+                                            !_isPendapatanVisible;
+                                      });
+                                    },
+                                    child: Icon(
+                                      _isPendapatanVisible
+                                          ? Icons.remove_red_eye_outlined
+                                          : Icons.visibility_off,
+                                      color: Colors.white,
+                                      size: 18,
                                     ),
                                   ),
-                              ],
-                            ),
-                          ),
-                        ],
+                                ],
+                              ),
+                            );
+                          }
+                        },
                       ),
                       Divider(
                         color: Colors.white,

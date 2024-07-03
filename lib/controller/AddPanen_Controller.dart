@@ -6,7 +6,8 @@ import 'package:ujidatapanen/service/addPanen_Service.dart';
 class PanenController {
   final PanenService _panenService = PanenService();
 
-  Future<bool> createPanen(BuildContext context, Panen panen, {File? imageFile}) async {
+  Future<bool> createPanen(BuildContext context, Panen panen,
+      {File? imageFile}) async {
     try {
       bool createSuccess = await _panenService.createPanen(panen, imageFile);
       if (createSuccess) {
