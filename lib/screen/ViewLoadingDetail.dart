@@ -3,7 +3,7 @@ import 'package:ujidatapanen/controller/AddSaldoController.dart';
 import 'package:ujidatapanen/model/loading.dart';
 import 'package:ujidatapanen/model/panen.dart';
 import 'package:ujidatapanen/screen/AddLoadingScreen.dart';
-import 'package:ujidatapanen/service/ViewPanenServicebyLoading.dart';
+import 'package:ujidatapanen/service/panen/ViewPanenServicebyLoading.dart';
 
 class ViewLoadingDetail extends StatefulWidget {
   final Loading loading;

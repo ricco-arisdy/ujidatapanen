@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../model/loading.dart';
+import '../../model/loading.dart';
 
 class EditLoadingService {
   Future<bool> updateLoading(Loading loading) async {

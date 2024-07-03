@@ -7,8 +7,8 @@ import 'package:ujidatapanen/screen/ViewLoadingDetail.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
 import 'package:ujidatapanen/screen/map_screen.dart';
 import 'package:ujidatapanen/screen/tentang_screen.dart';
-import 'package:ujidatapanen/service/DeleteLoadingService.dart';
-import 'package:ujidatapanen/service/ViewLoading_Service.dart';
+import 'package:ujidatapanen/service/loading/DeleteLoadingService.dart';
+import 'package:ujidatapanen/service/loading/ViewLoading_Service.dart';
 import 'package:ujidatapanen/screen/AddLoadingScreen.dart';
 
 class ViewLoadingScreen extends StatefulWidget {

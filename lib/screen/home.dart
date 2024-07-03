@@ -7,10 +7,10 @@ import 'package:ujidatapanen/screen/ViewLahanDetail.dart';
 import 'package:ujidatapanen/screen/ViewLoadingScreen.dart';
 import 'package:ujidatapanen/screen/login_screen.dart';
 import 'package:ujidatapanen/screen/tentang_screen.dart';
-import 'package:ujidatapanen/service/ViewLahanService.dart';
+import 'package:ujidatapanen/service/lahan/ViewLahanService.dart';
 import 'package:ujidatapanen/model/lahan.dart';
 import 'package:ujidatapanen/service/deleteLahanService.dart';
-import 'package:ujidatapanen/service/ViewSaldoService.dart';
+import 'package:ujidatapanen/service/saldo/ViewSaldoService.dart';
 
 class HomeView extends StatefulWidget {
   final int userId;

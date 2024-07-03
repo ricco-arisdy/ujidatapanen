@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ujidatapanen/model/lahan.dart';
 import 'package:ujidatapanen/screen/map_screen.dart';
-import 'package:ujidatapanen/service/EditLahan_service.dart';
+import 'package:ujidatapanen/service/lahan/EditLahan_service.dart';
 
 class EditLahanDialog extends StatefulWidget {
   final Lahan lahan;

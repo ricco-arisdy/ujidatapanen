@@ -6,7 +6,7 @@ import 'package:ujidatapanen/controller/AddPanen_Controller.dart';
 import 'package:ujidatapanen/model/loading.dart';
 import 'package:ujidatapanen/model/panen.dart';
 import 'package:ujidatapanen/provider/AuthProvider.dart';
-import 'package:ujidatapanen/service/ViewLoading_Service.dart';
+import 'package:ujidatapanen/service/loading/ViewLoading_Service.dart';
 
 class AddPanenScreen extends StatefulWidget {
   final int idLahan;

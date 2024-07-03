@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ujidatapanen/model/user.dart';
-import 'package:ujidatapanen/service/register_service.dart';
+import 'package:ujidatapanen/service/user/register_service.dart';
 
 class RegisterController {
   final AuthService _authService = AuthService();

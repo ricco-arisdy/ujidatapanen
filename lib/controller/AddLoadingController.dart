@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ujidatapanen/model/loading.dart';
-import 'package:ujidatapanen/service/AddLoading_Service.dart';
+import 'package:ujidatapanen/service/loading/AddLoading_Service.dart';
 
 class LoadingController {
   final LoadingService _loadingService = LoadingService();

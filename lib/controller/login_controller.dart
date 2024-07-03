@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ujidatapanen/provider/AuthProvider.dart';
 import 'package:ujidatapanen/screen/home.dart';
-import 'package:ujidatapanen/service/login_service.dart';
+import 'package:ujidatapanen/service/user/login_service.dart';
 
 class LoginController {
   final LoginService _loginService = LoginService();

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../model/lahan.dart';
+import '../../model/lahan.dart';
 
 class EditLahanService {
   Future<bool> updateLahan(Lahan lahan) async {

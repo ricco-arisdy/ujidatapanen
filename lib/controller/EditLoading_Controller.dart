@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ujidatapanen/model/loading.dart';
-import 'package:ujidatapanen/service/EditLoading_Service.dart';
+import 'package:ujidatapanen/service/loading/EditLoading_Service.dart';
 
 class EditLoadingController {
   final EditLoadingService _editLoadingService = EditLoadingService();
