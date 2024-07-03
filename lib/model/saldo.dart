@@ -16,15 +16,16 @@ class Saldo {
   });
 
   factory Saldo.fromJson(Map<String, dynamic> json) {
-    return Saldo(
-      id: json['id'],
-      idLoading: json['id_loading'],
-      userId: json['id_user'],
-      totalPanen: json['total_panen'].toDouble(),
-      pendapatan: json['pendapatan'].toDouble(),
-      createdAt: json['created_at'],
-    );
-  }
+  return Saldo(
+    id: json['id'],
+    idLoading: json['id_loading'],
+    userId: json['id_user'],
+    totalPanen: (json['total_panen'] ?? 0).toDouble(), 
+    pendapatan: (json['pendapatan'] ?? 0).toDouble(), 
+    createdAt: json['created_at'],
+  );
+}
+
 
   Map<String, dynamic> toJson() {
     return {
